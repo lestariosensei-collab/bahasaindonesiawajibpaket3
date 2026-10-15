@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TRY OUT TKA 3 BAHASA INDONESIA WAJIB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --biru-tua:#0f3860;
+  --biru:#1e5a8e;
+  --biru-muda:#eaf4fd;
+  --biru-muda2:#d3e9fb;
+  --biru-accent:#2f80c7;
+  --putih:#ffffff;
+  --merah:#e05252;
+  --hijau:#2e7d32;
+  --hijau-muda:#e8f5e9;
+  --kuning:#f0b429;
+  --abu:#64748b;
+  --shadow:0 4px 20px rgba(15,56,96,0.12);
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{
+  font-family:'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  background:linear-gradient(160deg, var(--biru-muda) 0%, var(--putih) 55%, var(--biru-muda2) 100%);
+  min-height:100vh;
+  color:#1e293b;
+}
+.screen{ display:none; min-height:100vh; }
+.screen.active{ display:flex; flex-direction:column; }
+
+/* ============ HEADER ============ */
+.app-header{
+  background:linear-gradient(90deg, var(--biru-tua), var(--biru));
+  color:#fff;
+  padding:18px 20px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+.app-header h1{ font-size:20px; letter-spacing:0.5px; font-weight:800; }
+.app-header p{ font-size:12px; opacity:0.9; margin-top:4px; }
+
+/* ============ LANDING / DATA DIRI ============ */
+#screen-start{ align-items:center; justify-content:center; padding:20px; }
+.start-card{
+  background:var(--putih);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  max-width:480px;
+  width:100%;
+  padding:30px 26px;
+  border:1px solid var(--biru-muda2);
+  animation:fadeUp .5s ease;
+}
+@keyframes fadeUp{ from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
+.start-card .badge{
+  background:var(--biru-muda);
+  color:var(--biru-tua);
+  display:inline-block;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:14px;
+}
+.start-card h2{ color:var(--biru-tua); font-size:22px; margin-bottom:6px; font-weight:800; }
+.start-card .desc{ color:var(--abu); font-size:13px; margin-bottom:22px; line-height:1.5; }
+.form-group{ margin-bottom:16px; }
+.form-group label{ display:block; font-size:13px; font-weight:700; color:var(--biru-tua); margin-bottom:6px; }
+.form-group input{
+  width:100%;
+  padding:12px 14px;
+  border:2px solid var(--biru-muda2);
+  border-radius:10px;
+  font-size:14px;
+  background:var(--biru-muda);
+  transition:.2s;
+  color:#1e293b;
+  font-family:inherit;
+}
+.form-group input:focus{
+  outline:none; border-color:var(--biru-accent); background:#fff;
+}
+.info-box{
+  background:var(--biru-muda);
+  border-left:4px solid var(--biru-accent);
+  border-radius:8px;
+  padding:12px 14px;
+  font-size:12px;
+  color:var(--biru-tua);
+  margin-bottom:20px;
+  line-height:1.6;
+}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  border:none; border-radius:12px; cursor:pointer;
+  font-weight:700; font-size:14px; padding:13px 22px;
+  transition:.2s; width:100%; font-family:inherit;
+}
+.btn-primary{ background:linear-gradient(90deg, var(--biru), var(--biru-accent)); color:#fff; box-shadow:0 4px 12px rgba(30,90,142,0.35);}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(30,90,142,0.45); }
+.btn-primary:disabled{ background:#c3cfdb; cursor:not-allowed; transform:none; box-shadow:none; }
+.btn-secondary{ background:var(--biru-muda); color:var(--biru-tua); border:2px solid var(--biru-muda2); }
+.btn-secondary:hover{ background:var(--biru-muda2); }
+.btn-outline{ background:transparent; color:var(--biru); border:2px solid var(--biru); }
+.btn-danger{ background:linear-gradient(90deg,#e05252,#f07070); color:#fff; }
+
+/* ============ QUIZ SCREEN ============ */
+#screen-quiz{ padding-bottom:20px; }
+.quiz-topbar{
+  position:sticky; top:0; z-index:50;
+  background:linear-gradient(90deg, var(--biru-tua), var(--biru));
+  color:#fff;
+  padding:12px 18px;
+  display:flex; align-items:center; justify-content:space-between;
+  box-shadow:var(--shadow);
+  flex-wrap:wrap; gap:10px;
+}
+.quiz-topbar .peserta-info{ font-size:12px; line-height:1.4; }
+.quiz-topbar .peserta-info b{ font-size:14px; }
+.timer-box{
+  background:rgba(255,255,255,0.15);
+  border-radius:10px;
+  padding:8px 16px;
+  text-align:center;
+  min-width:110px;
+}
+.timer-box .label{ font-size:10px; opacity:.85; letter-spacing:1px; font-weight:700;}
+.timer-box .time{ font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; }
+.timer-box.warning{ background:rgba(224,82,82,0.35); animation:pulse 1s infinite; }
+@keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.6;} }
+
+.quiz-body{
+  display:flex; gap:18px; padding:18px; max-width:1200px; margin:0 auto; width:100%;
+  align-items:flex-start; flex-wrap:wrap;
+}
+.nav-panel{
+  background:var(--putih);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  padding:16px;
+  width:280px;
+  flex-shrink:0;
+  border:1px solid var(--biru-muda2);
+  transition:width .3s ease, padding .3s ease, opacity .25s ease, margin .3s ease;
+  overflow:hidden;
+}
+.nav-panel.collapsed{
+  width:0; padding:0; margin:0; border:none; opacity:0;
+  pointer-events:none;
+}
+.nav-panel-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.nav-panel-head h3{ margin-bottom:0; font-size:14px; color:var(--biru-tua); font-weight:800; }
+.btn-collapse{
+  background:var(--biru-muda); border:1px solid var(--biru-muda2); color:var(--biru-tua);
+  border-radius:8px; cursor:pointer; font-size:11px; font-weight:700; padding:5px 9px;
+  white-space:nowrap; flex-shrink:0; font-family:inherit;
+}
+.btn-collapse:hover{ background:var(--biru-muda2); }
+
+.nav-reopen-tab{
+  display:none; position:fixed; left:0; top:50%; transform:translateY(-50%);
+  background:linear-gradient(180deg, var(--biru-tua), var(--biru));
+  color:#fff; border:none; border-radius:0 12px 12px 0;
+  padding:14px 8px; cursor:pointer; z-index:60; box-shadow:var(--shadow);
+  font-size:11px; font-weight:700; writing-mode:vertical-rl; text-orientation:mixed;
+  letter-spacing:1px; font-family:inherit;
+}
+.nav-reopen-tab.visible{ display:block; }
+
+.legend{ display:flex; flex-wrap:wrap; gap:8px; font-size:10px; margin-bottom:12px; }
+.legend span{ display:flex; align-items:center; gap:4px; color:var(--abu); font-weight:600; }
+.legend i{ width:10px; height:10px; border-radius:3px; display:inline-block; }
+.nav-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+.nav-btn{
+  aspect-ratio:1; border-radius:8px; border:none; cursor:pointer;
+  font-size:12px; font-weight:700; color:#fff;
+  background:var(--merah);
+  transition:.15s;
+  position:relative;
+  font-family:inherit;
+}
+.nav-btn:hover{ transform:scale(1.08); }
+.nav-btn.answered{ background:var(--hijau); }
+.nav-btn.doubt{ background:var(--kuning); color:#5a4400; }
+.nav-btn.current{ box-shadow:0 0 0 3px var(--biru-tua); }
+.nav-summary{ margin-top:14px; font-size:11px; color:var(--abu); line-height:1.8; font-weight:600; }
+.nav-summary b{ color:var(--biru-tua); }
+
+.question-panel{
+  background:var(--putih);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  padding:24px;
+  flex:1;
+  min-width:300px;
+  border:1px solid var(--biru-muda2);
+}
+.q-meta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:8px;}
+.q-number-badge{
+  background:var(--biru-tua); color:#fff; font-weight:800; font-size:13px;
+  padding:6px 14px; border-radius:20px;
+}
+.q-type-badge{
+  background:var(--biru-muda); color:var(--biru-tua); font-size:11px; font-weight:700;
+  padding:6px 12px; border-radius:20px; border:1px solid var(--biru-muda2);
+}
+.stimulus-box{
+  background:var(--biru-muda);
+  border:1px solid var(--biru-muda2);
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:18px;
+  font-size:14px;
+  line-height:1.7;
+  color:#1e293b;
+  white-space:pre-line;
+}
+.stimulus-box .stim-label{
+  font-size:11px; font-weight:800; color:var(--biru); margin-bottom:8px; display:block; letter-spacing:.5px; text-transform:uppercase;
+}
+.instruksi{ font-size:13px; color:var(--biru-accent); font-weight:700; margin-bottom:12px; display:block; }
+.q-text{ font-size:15px; line-height:1.7; color:#0f172a; margin-bottom:20px; font-weight:600; white-space:pre-line; }
+
+.options{ display:flex; flex-direction:column; gap:10px; }
+.option{
+  display:flex; align-items:flex-start; gap:12px;
+  padding:14px 16px;
+  border:2px solid var(--biru-muda2);
+  border-radius:12px;
+  cursor:pointer;
+  transition:.15s;
+  background:#fff;
+}
+.option:hover{ background:var(--biru-muda); border-color:var(--biru-accent); }
+.option.selected{ background:var(--biru-muda2); border-color:var(--biru); }
+.option .opt-mark{
+  width:26px; height:26px; border-radius:50%; border:2px solid var(--biru-accent);
+  display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800;
+  color:var(--biru-tua); flex-shrink:0; background:#fff; margin-top:1px;
+}
+.option.selected .opt-mark{ background:var(--biru); color:#fff; }
+.option.checkbox .opt-mark{ border-radius:6px; }
+.option .opt-text{ font-size:14px; color:#1e293b; line-height:1.5; font-weight:500; }
+
+.kategori-table{ width:100%; border-collapse:collapse; margin-top:8px; border:1px solid var(--biru-muda2); border-radius:8px; overflow:hidden; }
+.kategori-table th{ background:var(--biru-muda); color:var(--biru-tua); font-size:12px; font-weight:700; padding:10px; text-align:left; border-bottom:2px solid var(--biru-muda2); }
+.kategori-table tr{ border-bottom:1px solid var(--biru-muda2); }
+.kategori-table tr:last-child{ border-bottom:none; }
+.kategori-table td{ padding:12px 10px; vertical-align:middle; }
+.kategori-table td.stmt{ font-size:13.5px; color:#1e293b; line-height:1.5; }
+.kategori-choice{ display:flex; gap:8px; justify-content:flex-end; }
+.kc-btn{
+  padding:8px 14px; border-radius:8px; border:2px solid var(--biru-muda2);
+  background:#fff; cursor:pointer; font-size:12px; font-weight:700; color:var(--abu);
+  transition:.15s; font-family:inherit;
+}
+.kc-btn.benar.active{ background:var(--hijau); color:#fff; border-color:var(--hijau); }
+.kc-btn.salah.active{ background:var(--merah); color:#fff; border-color:var(--merah); }
+
+.q-nav-buttons{ display:flex; justify-content:space-between; margin-top:24px; gap:10px; flex-wrap:wrap; }
+.q-nav-buttons .left-group, .q-nav-buttons .right-group{ display:flex; gap:10px; }
+.q-nav-buttons .btn{ width:auto; padding:11px 18px; }
+
+/* ============ RESULT SCREEN ============ */
+#screen-result{ align-items:center; justify-content:center; padding:30px 16px; }
+.result-card{
+  background:var(--putih); border-radius:20px; box-shadow:var(--shadow);
+  max-width:540px; width:100%; padding:36px 28px; text-align:center;
+  border:1px solid var(--biru-muda2);
+}
+.result-card .trophy{ font-size:52px; margin-bottom:8px; }
+.result-card h2{ color:var(--biru-tua); font-size:24px; margin-bottom:4px; font-weight:800; }
+.result-card .sub{ color:var(--abu); font-size:13px; margin-bottom:24px; font-weight:500; }
+.score-circle{
+  width:160px; height:160px; border-radius:50%;
+  background:conic-gradient(var(--biru) calc(var(--pct)*1%), var(--biru-muda2) 0);
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 22px auto; position:relative;
+}
+.score-circle::before{
+  content:''; position:absolute; width:128px; height:128px; background:#fff; border-radius:50%;
+}
+.score-circle .score-txt{ position:relative; z-index:2; font-size:36px; font-weight:800; color:var(--biru-tua); }
+.result-stats{ display:flex; justify-content:center; gap:22px; margin-bottom:26px; flex-wrap:wrap; }
+.result-stats div{ text-align:center; }
+.result-stats .num{ font-size:22px; font-weight:800; }
+.result-stats .lbl{ font-size:11px; color:var(--abu); font-weight:700; margin-top:2px; }
+.result-stats .benar .num{ color:var(--hijau); }
+.result-stats .salah .num{ color:var(--merah); }
+.result-actions{ display:flex; flex-direction:column; gap:12px; }
+
+footer.foot-note{ text-align:center; font-size:12px; color:var(--abu); padding:16px; font-weight:600; }
+
+/* ============ PDF OVERLAY ============ */
+.pdf-overlay{
+  display:none; position:fixed; inset:0; z-index:999;
+  background:rgba(15,56,96,0.6); align-items:center; justify-content:center;
+}
+.pdf-overlay.active{ display:flex; }
+.pdf-overlay-box{
+  background:#fff; border-radius:16px; padding:28px 36px; text-align:center;
+  box-shadow:var(--shadow); max-width:320px;
+}
+.pdf-spinner{
+  width:42px; height:42px; border:4px solid var(--biru-muda2); border-top-color:var(--biru);
+  border-radius:50%; margin:0 auto 14px auto; animation:spin 0.8s linear infinite;
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+.pdf-overlay-box p{ font-size:14px; color:var(--biru-tua); font-weight:700; }
+.pdf-overlay-box span{ font-size:12px; color:var(--abu); display:block; margin-top:4px; }
+
+/* ============ AREA RENDER PDF ============ */
+#pdf-render-temp{
+  position:fixed; left:-99999px; top:0; background:#ffffff;
+  font-family:'Plus Jakarta Sans','Segoe UI',sans-serif; color:#1e293b;
+}
+.pdf-cover{ padding:4px; }
+.pdf-cover .pdf-band{ background:#0f3860; color:#fff; padding:20px; border-radius:6px; text-align:center; }
+.pdf-cover .pdf-band h1{ font-size:20px; margin-bottom:4px; font-weight:800; }
+.pdf-cover .pdf-band h2{ font-size:15px; font-weight:600; margin-bottom:8px; color:#d3e9fb; }
+.pdf-cover .pdf-band p{ font-size:11px; opacity:0.9; }
+.pdf-cover .pdf-petunjuk{ font-size:12px; line-height:1.8; padding:16px 4px 4px 4px; }
+.pdf-cover .pdf-petunjuk b{ color:#0f3860; }
+.pdf-stimulus-block{ background:#eaf4fd; border:1px solid #d3e9fb; border-radius:8px; padding:14px 16px; margin-bottom:10px; }
+.pdf-stimulus-block .pdf-stim-title{ font-size:11px; font-weight:800; color:#1e5a8e; margin-bottom:8px; display:block; }
+.pdf-stimulus-block .pdf-stim-text{ font-size:13px; line-height:1.7; white-space:pre-line; color:#1e293b; }
+.pdf-question-block{ padding:8px 2px; }
+.pdf-question-block .pdf-q-top{ display:flex; gap:10px; align-items:center; margin-bottom:6px; }
+.pdf-question-block .pdf-q-num{ background:#0f3860; color:#fff; font-weight:800; font-size:12px; border-radius:14px; padding:3px 12px; flex-shrink:0; }
+.pdf-question-block .pdf-q-instr{ font-size:11px; font-weight:700; color:#2f80c7; }
+.pdf-question-block .pdf-q-text{ font-size:13.5px; line-height:1.6; font-weight:600; margin:8px 0 12px 0; white-space:pre-line; color:#0f172a; }
+.pdf-opt{ display:flex; gap:10px; padding:8px 12px; border:1.5px solid #d3e9fb; border-radius:8px; margin-bottom:6px; align-items:flex-start; }
+.pdf-opt .pdf-opt-mark{ width:20px; height:20px; border-radius:50%; border:1.5px solid #2f80c7; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#0f3860; flex-shrink:0; margin-top:1px; }
+.pdf-opt .pdf-opt-text{ font-size:13px; line-height:1.5; }
+.pdf-kat-table{ width:100%; border-collapse:collapse; margin-top:8px; border:1px solid #d3e9fb; }
+.pdf-kat-table th{ background:#eaf4fd; padding:6px 10px; font-size:11px; text-align:left; color:#0f3860; border-bottom:1px solid #d3e9fb; }
+.pdf-kat-table td{ padding:8px 10px; font-size:12px; border-bottom:1px solid #d3e9fb; }
+.pdf-pembahasan-box{ background:#f8fafc; border-left:4px solid #1e5a8e; border-radius:4px; padding:10px 12px; margin-top:8px; font-size:11.5px; line-height:1.6; color:#334155; }
+.pdf-pembahasan-box b{ color:#0f3860; }
+
+.pdf-kunci-title{ font-size:18px; font-weight:800; color:#0f3860; text-align:center; padding:10px 0 16px 0; }
+.pdf-kunci-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; font-size:12px; }
+.pdf-kunci-item{ display:flex; justify-content:space-between; padding:6px 8px; border-bottom:1px solid #eaf4fd; background:#f8fafc; border-radius:4px; }
+.pdf-kunci-item b{ color:#0f3860; font-weight:700; }
+
+@media(max-width:640px){
+  .quiz-body{ flex-direction:column; }
+  .nav-panel{ width:100%; order:2; }
+  .question-panel{ order:1; }
+  .q-text, .option .opt-text{ font-size:14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= SCREEN 1: DATA DIRI ================= -->
+<div class="screen active" id="screen-start">
+  <div class="app-header" style="width:100%;">
+    <h1>🇮🇩 TRY OUT TKA 3 BAHASA INDONESIA WAJIB</h1>
+    <p>Tes Kemampuan Akademik &mdash; SMAN 2 LUWU UTARA</p>
+  </div>
+  <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:24px 16px;">
+    <div class="start-card">
+      <span class="badge">BAHASA INDONESIA (WAJIB) &bull; SMA/MA</span>
+      <h2>Data Peserta Ujian</h2>
+      <p class="desc">Masukkan Nama Lengkap dan NISN Anda untuk memulai Try Out TKA 3 Bahasa Indonesia Wajib.</p>
+
+      <div class="form-group">
+        <label>NAMA LENGKAP</label>
+        <input type="text" id="input-nama" placeholder="Masukkan nama lengkap Anda" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>NISN</label>
+        <input type="text" id="input-nisn" placeholder="Masukkan NISN Anda" autocomplete="off" inputmode="numeric">
+      </div>
+
+      <div class="info-box">
+        📋 <b>Ketentuan Ujian:</b><br>
+        • Jumlah Soal: <b>30 Butir</b><br>
+        • Durasi Waktu: <b>75 Menit</b><br>
+        • Bentuk Soal: Pilihan Ganda, PG Kompleks (MCMA), &amp; PG Kategori (Benar/Salah)<br>
+        • Setelah selesai, nilai &amp; persentase akan tampil dan dapat di-download dalam bentuk PDF bersama pembahasan lengkap.
+      </div>
+
+      <button class="btn btn-primary" id="btn-mulai" disabled onclick="mulaiTryOut()">🚀 MULAI TRY OUT</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SCREEN 2: QUIZ ================= -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-topbar">
+    <div class="peserta-info">
+      <b id="tb-nama">-</b><br>
+      NISN: <span id="tb-nisn">-</span> &bull; <span>SMAN 2 LUWU UTARA</span>
+    </div>
+    <div class="timer-box" id="timer-box">
+      <div class="label">SISA WAKTU</div>
+      <div class="time" id="timer-display">75:00</div>
+    </div>
+  </div>
+
+  <div class="quiz-body">
+    <div class="nav-panel" id="nav-panel">
+      <div class="nav-panel-head">
+        <h3>NAVIGASI SOAL</h3>
+        <button class="btn-collapse" onclick="toggleNavPanel()">◀ Sembunyikan</button>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--merah)"></i>Belum dikerjakan</span>
+        <span><i style="background:var(--hijau)"></i>Sudah dikerjakan</span>
+        <span><i style="background:var(--kuning)"></i>Ragu-ragu</span>
+      </div>
+      <div class="nav-grid" id="nav-grid"></div>
+      <div class="nav-summary">
+        Terjawab: <b id="sum-terjawab">0</b>/30<br>
+        Ragu-ragu: <b id="sum-ragu">0</b><br>
+        Belum dijawab: <b id="sum-belum">30</b>
+      </div>
+      <button class="btn btn-danger" style="margin-top:14px;" onclick="konfirmasiKirim()">📤 KIRIM JAWABAN</button>
+    </div>
+
+    <div class="question-panel">
+      <div class="q-meta">
+        <span class="q-number-badge" id="q-number-badge">SOAL 1/30</span>
+        <button class="btn-collapse" id="btn-show-nav" onclick="toggleNavPanel()" style="display:none;">☰ Navigasi</button>
+        <span class="q-type-badge" id="q-type-badge">PILIHAN GANDA</span>
+      </div>
+      <div id="stimulus-container"></div>
+      <span class="instruksi" id="q-instruksi">Pilih satu jawaban yang paling tepat!</span>
+      <div class="q-text" id="q-text"></div>
+      <div id="q-body"></div>
+
+      <div class="q-nav-buttons">
+        <div class="left-group">
+          <button class="btn btn-secondary" onclick="prevQuestion()">⬅ Sebelumnya</button>
+          <button class="btn btn-outline" id="btn-ragu" onclick="toggleRagu()">🤔 Ragu-ragu</button>
+        </div>
+        <div class="right-group">
+          <button class="btn btn-primary" onclick="nextQuestion()">Selanjutnya ➡</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="nav-reopen-tab" id="nav-reopen-tab" onclick="toggleNavPanel()">☰ NAVIGASI SOAL</button>
+</div>
+
+<!-- ================= SCREEN 3: RESULT ================= -->
+<div class="screen" id="screen-result">
+  <div class="result-card">
+    <div class="trophy">🏆</div>
+    <h2>Try Out Selesai!</h2>
+    <p class="sub" id="result-nama-sub">Berikut ringkasan hasil ujian Anda.</p>
+
+    <div class="score-circle" id="score-circle" style="--pct:0;">
+      <div class="score-txt" id="score-txt">0</div>
+    </div>
+
+    <div class="result-stats">
+      <div class="benar"><div class="num" id="stat-benar">0</div><div class="lbl">BENAR</div></div>
+      <div class="salah"><div class="num" id="stat-salah">0</div><div class="lbl">SALAH</div></div>
+      <div><div class="num" id="stat-pct">0%</div><div class="lbl">PERSENTASE</div></div>
+      <div><div class="num" id="stat-waktu">0:00</div><div class="lbl">WAKTU</div></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn btn-primary" onclick="downloadSertifikat()">📜 DOWNLOAD SERTIFIKAT &amp; HASIL (PDF)</button>
+      <button class="btn btn-outline" onclick="downloadSoalPDF()">📄 DOWNLOAD SOAL &amp; PEMBAHASAN (PDF)</button>
+      <button class="btn btn-secondary" onclick="location.reload()">🔄 Ulangi Try Out</button>
+    </div>
+  </div>
+</div>
+
+<footer class="foot-note">SMAN 2 Luwu Utara &bull; Try Out TKA 3 Bahasa Indonesia Wajib</footer>
+
+<!-- Overlay proses pembuatan PDF -->
+<div class="pdf-overlay" id="pdf-overlay">
+  <div class="pdf-overlay-box">
+    <div class="pdf-spinner"></div>
+    <p id="pdf-loading-text">Sedang membuat PDF...</p>
+    <span>Mohon tunggu sebentar</span>
+  </div>
+</div>
+
+<script>
+/* =======================================================================
+   STIMULUS TEKS (DI-REUSE/DITULIS KEMBALI DI MASING-MASING SOAL TERKAIT)
+   ======================================================================= */
+const TEKS_1 = "TEKS UNTUK SOAL NOMOR 1 s.d. 4\nKrisis literasi digital menjadi tantangan baru bagi siswa SMA saat ini. Banyak siswa lebih memilih menggulir media sosial berjam-jam daripada membaca artikel ilmiah atau buku digital yang berbobot. Padahal, kemampuan literasi digital tidak sekadar bisa membuka gawai, tetapi juga mencakup kemampuan mengevaluasi kebenaran informasi, membedakan fakta dan opini, serta menghindari penyebaran hoaks.\n\nMenurut survei terbaru, 7 dari 10 siswa mengaku pernah membagikan berita tanpa membaca isinya terlebih dahulu. Hal ini menunjukkan lemahnya budaya berpikir kritis. Sekolah dan keluarga perlu bersinergi menumbuhkan literasi digital yang sehat. Guru bisa mengintegrasikan kegiatan analisis berita hoaks di kelas, sementara orang tua perlu menjadi teladan dalam menggunakan gawai secara bijak.\n\nJika tidak ada upaya bersama, generasi penerus berisiko menjadi \"konsumen informasi pasif\" yang mudah terprovokasi. Oleh karena itu, literasi digital harus menjadi prioritas pendidikan abad 21 agar siswa mampu menjadi produsen konten yang cerdas dan bertanggung jawab.";
+
+const TEKS_2 = "TEKS UNTUK SOAL NOMOR 5 s.d. 7\n\"Pak, aku tidak ikut lomba pidato minggu depan,\" kata Rina pelan sambil menunduk di ruang tamu.\n\"Kenapa, Nak? Bukannya kamu paling lancar bicara di kelas?\" tanya Ayah sambil meletakkan koran.\nRina menghela napas. \"Teman-teman bilang suaraku kecil dan logat Jawaku terlalu kental. Katanya memalukan kalau maju ke panggung.\"\nAyah mendekat, lalu menepuk bahu Rina. \"Nak, suara kecil bukan berarti tidak punya makna. Logat itu identitas. Dulu Ayah juga diejek karena aksen saat lomba debat tingkat provinsi. Tapi Ayah tetap maju. Yang penting pesannya sampai, bukan logatnya.\"\nMata Rina mulai berkaca-kaca. \"Tapi kalau kalah, Pak....\"\nAyah tersenyum. \"Kalah itu guru terbaik. Berani mencoba itu sudah menang.\"\nRina mengangguk. Malam itu ia berlatih di depan cermin hingga larut, membayangkan dirinya berdiri percaya diri di atas panggung.";
+
+const TEKS_3 = "TEKS UNTUK SOAL NOMOR 8 s.d. 10\nKrisis air bersih semakin mengkhawatirkan di perkotaan Indonesia. Penggunaan air tanah berlebihan menyebabkan penurunan muka tanah dan intrusi air laut. Padahal, air bersih adalah kebutuhan dasar yang tidak bisa digantikan. Jika tren ini terus berlanjut, banyak wilayah akan mengalami kekeringan kronis dan kerusakan infrastruktur.\n\nPemerintah daerah mulai menerapkan kebijakan konservasi air. Beberapa kota mewajibkan penggunaan sumur resapan, pemasangan meteran air pintar, dan kampanye \"Hemat Air, Hemat Masa Depan\" di sekolah serta kantor. Tujuannya agar masyarakat sadar bahwa setiap tetes air sangat berharga.\n\nNamun, kebijakan saja tidak cukup. Kesadaran individu masih rendah. Banyak orang membiarkan keran bocor atau mandi terlalu lama. Padahal, jika setiap keluarga menghemat 20 liter air per hari, dampaknya sangat besar bagi ketersediaan air di masa depan. Oleh karena itu, perubahan kebiasaan kecil dari masyarakat menjadi kunci utama.";
+
+const TEKS_4 = "TEKS 2 UNTUK SOAL NOMOR 11 s.d. 13\nPerubahan iklim telah menjadi isu global yang menuntut aksi nyata. Dahulu isu ini hanya dibahas dalam seminar ilmiah. Kini, dampaknya sudah terasa: cuaca ekstrem, banjir, dan gagal panen. Media sosial mempercepat penyebaran informasi tentang perubahan iklim, sehingga kesadaran publik meningkat.\n\nNamun, meningkatnya kesadaran tidak selalu diikuti tindakan. Banyak orang masih memilih sampah, menggunakan kendaraan pribadi berlebihan, atau boros energi. Tanpa aksi nyata, kampanye iklim hanya jadi wacana. Tantangan terbesar adalah mengubah perilaku.\n\nOleh karena itu, \"aksi iklim berbasis komunitas\" dianggap strategi paling efektif. Model ini menggabungkan edukasi daring, gotong royong menanam pohon, dan pengawasan warga terhadap lingkungan. Dengan begitu, kesadaran tidak berhenti di media sosial, tetapi berlanjut menjadi aksi kolektif yang berdampak nyata.";
+
+const TEKS_5 = "TEKS UNTUK SOAL NOMOR 14 s.d. 16\nAngin kencang disertai hujan es melanda desa pegunungan sejak malam. Atap-atap rumah banyak yang rusak dan pohon tumbang menutup akses jalan. Kepala dusun segera menginstruksikan warga untuk berkumpul di balai desa yang lebih aman. Namun, Pak Darto menolak untuk meninggalkan rumahnya.\n\nPak Darto adalah petani tua yang hidup sebatang kara di gubuk kayu pinggir jurang. Warga sudah tahu sifat Pak Darto yang \"batu\" sejak ia muda. Ia sering berkata, \"Kalau sudah nasib, mau lari ke mana pun tetap sama saja.\" Beberapa pemuda mencoba membujuk, tetapi ia tetap bertahan sambil memperbaiki atap yang bocor.\n\nHingga pagi, badai mereda dan tanah longsor hanya melewati sedikit di samping rumahnya. Ia selamat tanpa cedera. Warga yang kembali ke rumahnya terheran-heran melihat ia masih hidup. Sejak itu, warga semakin segan pada Pak Darto. Mereka belajar bahwa keberanian dan keyakinan diri bisa menjadi modal bertahan dalam situasi sulit.";
+
+const TEKS_6 = "TEKS UNTUK SOAL NOMOR 17 s.d. 20\n(1) Di era informasi, kemampuan berpikir kritis sangat diperlukan agar tidak mudah tertipu berita bohong. Berpikir kritis adalah kemampuan menganalisis informasi secara rasional dan tidak langsung percaya sebelum membuktikannya. Tujuannya agar kita bisa memilah mana berita yang faktual dan mana yang hanya sensasi.\n\n(2) Salah satu masalah utama di internet adalah maraknya disinformasi. Disinformasi adalah informasi salah yang sengaja dibuat untuk memanipulasi opini publik. Disinformasi cepat viral karena memicu emosi dan sering dibagikan tanpa verifikasi. Akibatnya, disinformasi dapat memecah belah masyarakat, merusak reputasi, bahkan menimbulkan konflik.\n\n(3) Untuk mengatasinya, kita harus melatih berpikir kritis. Caranya dengan memeriksa kredibilitas sumber, mencari data pembanding, dan tidak langsung menyebarluaskan informasi yang belum pasti. Selain itu, penting juga memahami etika digital agar tidak ikut menyebarkan fitnah atau ujaran kebencian.\n\n(4) Dengan berpikir kritis yang baik, kita dapat menjadi warganet yang cerdas, bertanggung jawab, dan turut menjaga ruang digital tetap sehat dan kondusif.";
+
+const TEKS_7 = "TEKS UNTUK SOAL NOMOR 21-23\nEra disrupsi digital menciptakan ilusi demokratisasi ekonomi. Platform marketplace mengklaim memberi \"kesempatan sama\" bagi semua UMKM. Namun faktanya, algoritma platform justru menguntungkan pelaku yang memiliki modal besar untuk iklan, foto produk profesional, dan logistik cepat. UMKM mikro yang hanya mengandalkan kualitas produk akan tenggelam di halaman 10.\n\nLebih parah lagi, data perilaku konsumen yang dikumpulkan platform tidak pernah dibagikan kepada penjual. Akibatnya, UMKM hanya menjadi \"buruh digital\" yang bergantung pada kebijakan platform, tanpa pernah benar-benar memiliki pelanggan.\n\nPemerintah terjebak dalam retorika. Program \"digitalisasi 30 juta UMKM\" dicanangkan, tetapi minim regulasi yang melindungi data dan persaingan usaha yang adil. Jika terus dibiarkan, kita tidak sedang menciptakan wirausaha baru, melainkan proletar baru di era digital.";
+
+const TEKS_8 = "TEKS UNTUK SOAL NOMOR 24-26\nPonsel itu bergetar lagi. Nama \"Ibu\" muncul di layar. Sudah seminggu aku menunda mengangkatnya. Bukan karena benci. Justru karena terlalu sayang. Setiap kali bicara, ujungnya pasti:\n\"Kapan pulang? Kapan nikah? Temani Ibumu anaknya sudah 2.\"\n\nAku menetap KTP Jakarta di dompet. 5 tahun merintis, tidur di kos 3x3, lembur demi proyek. Pulang sekarang berarti mengakui gagal. Tapi tidak pulang juga berarti mengingkari akar.\n\"Rumah\" yang dulu jadi tempat berlindung, kini terasa seperti ruang interogasi.\nAku rindu masakan Ibu, tapi takut dengan pertanyaannya.\n\nMalam itu aku sadar, jarak 500 km tidak memisahkan kami.\nYang memisahkan adalah ekspektasi yang tidak pernah kami bicarakan.";
+
+const TEKS_9 = "TEKS LANJUTAN UNTUK SOAL NOMOR 27-30\n(1) Paradoks \"ekonomi hijau\" kini semakin nyata. Di satu sisi, negara-negara G20 berlomba menargetkan nol emisi 2050 dan menggelontorkan triliunan dolar untuk energi terbarukan. Di sisi lain, permintaan nikel, tembaga, dan tanah jarang untuk panel surya dan turbin angin justru memicu gelombang deforestasi baru di Amazon dan Kongo.\n\n(2) Perusahaan tambang berdalih bahwa kerusakan ini adalah \"kerugian yang dapat diterima\" demi masa depan planet. Namun LSM lingkungan menyebutnya sebagai \"kolonialisme hijau\" di mana negara kaya melestarikan lingkungannya dengan mengekspor kerusakan ke negara miskin.\n\n(3) Ironisnya, konsumen di negara maju merasa sudah \"berjasa menyelamatkan bumi\" hanya dengan membeli mobil listrik, tanpa tahu bahwa baterainya lahir dari tambang yang menggusur desa.\n\n(4) Para ahli tata kelola global mengusulkan 3 jalur: pertama, sertifikasi rantai pasok yang ketat; kedua, investasi besar pada daur ulang; ketiga, mengurangi konsumsi secara radikal.\n\n(5) Namun ketiganya bertabrakan dengan logika kapitalisme yang menuntut pertumbuhan tanpa henti. Sampai ada keberanian politik untuk memilih, \"transisi hijau\" berisiko menjadi mitos baru abad 21.";
+
+const TEKS_7_8 = TEKS_7 + "\n\n" + TEKS_8;
+
+/* =======================================================================
+   DATA BANK SOAL — 30 SOAL BAHASA INDONESIA WAJIB TKA (TRY OUT TKA 3)
+   ======================================================================= */
+const QUESTIONS = [
+  {
+    "no": 1,
+    "type": "pg",
+    "stimulus": TEKS_1,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Makna frasa \"konsumen informasi pasif\" pada paragraf ketiga teks tersebut adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Siswa yang hanya membaca buku cetak dan menolak teknologi"
+      },
+      {
+        "id": "b",
+        "text": "Individu yang menerima informasi tanpa mengevaluasi kebenarannya terlebih dahulu"
+      },
+      {
+        "id": "c",
+        "text": "Orang yang memproduksi konten digital setiap hari di media sosial"
+      },
+      {
+        "id": "d",
+        "text": "Pengguna gawai yang menghabiskan kuota untuk menonton video edukasi"
+      },
+      {
+        "id": "e",
+        "text": "Siswa yang tidak memiliki akses internet di rumah"
+      }
+    ],
+    "correct": "b",
+    "pembahasan": "\"Konsumen informasi pasif\" adalah orang yang menerima informasi begitu saja tanpa mengevaluasi kebenarannya terlebih dahulu."
+  },
+  {
+    "no": 2,
+    "type": "pg",
+    "stimulus": TEKS_1,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Apa solusi utama yang disarankan penulis untuk mengatasi krisis literasi digital pada paragraf kedua teks tersebut?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Melarang siswa membawa gawai ke sekolah sepenuhnya"
+      },
+      {
+        "id": "b",
+        "text": "Menambah jumlah buku cetak di perpustakaan sekolah"
+      },
+      {
+        "id": "c",
+        "text": "Adanya kerja sama sekolah dan keluarga dalam menumbuhkan literasi digital"
+      },
+      {
+        "id": "d",
+        "text": "Pemerintah memblokir semua media sosial yang ada"
+      },
+      {
+        "id": "e",
+        "text": "Siswa diwajibkan membuat konten setiap hari"
+      }
+    ],
+    "correct": "c",
+    "pembahasan": "Solusi yang ditawarkan adalah sinergi sekolah dan keluarga dalam membangun literasi digital yang sehat."
+  },
+  {
+    "no": 3,
+    "type": "mcma",
+    "stimulus": TEKS_1,
+    "instruksi": "Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.",
+    "text": "Mengapa literasi digital penting bagi siswa SMA di era saat ini?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Mampu mengevaluasi kebenaran informasi dan menghindari hoaks"
+      },
+      {
+        "id": "b",
+        "text": "Membuat siswa kecanduan media sosial dan malas belajar"
+      },
+      {
+        "id": "c",
+        "text": "Membantu membedakan fakta dan opini dalam sebuah berita"
+      },
+      {
+        "id": "d",
+        "text": "Menjadikan siswa hanya sebagai penerima informasi tanpa bertanya"
+      },
+      {
+        "id": "e",
+        "text": "Mendorong siswa menjadi produsen konten yang cerdas dan bertanggung jawab"
+      }
+    ],
+    "correct": [
+      "a",
+      "c",
+      "e"
+    ],
+    "pembahasan": "Literasi digital membantu siswa mengevaluasi kebenaran informasi, membedakan fakta dan opini, serta menjadi produsen konten yang cerdas dan bertanggung jawab."
+  },
+  {
+    "no": 4,
+    "type": "kategori",
+    "stimulus": TEKS_1,
+    "instruksi": "Tentukan Benar atau Salah untuk setiap pernyataan berikut!",
+    "text": "Oleh karena itu, literasi digital harus menjadi prioritas pendidikan abad 21.... Mengapa penulis menggunakan kalimat tersebut pada akhir teks?",
+    "statements": [
+      {
+        "text": "Menegaskan urgensi literasi digital sebagai solusi atas dampak negatif teknologi.",
+        "correct": true
+      },
+      {
+        "text": "Menyimpulkan bahwa semua siswa saat ini adalah penyebar hoaks.",
+        "correct": false
+      },
+      {
+        "text": "Menekankan tujuan akhir penulis agar siswa menjadi pengguna informasi yang kritis.",
+        "correct": true
+      }
+    ],
+    "pembahasan": "Kalimat akhir menegaskan urgensi literasi digital dan tujuan membentuk siswa yang kritis. Teks tidak menyatakan semua siswa merupakan penyebar hoaks. Kunci: Benar - Salah - Benar."
+  },
+  {
+    "no": 5,
+    "type": "kategori",
+    "stimulus": TEKS_2,
+    "instruksi": "Tentukan Benar atau Salah untuk setiap pernyataan berikut!",
+    "text": "Apa konflik utama yang dialami tokoh Rina dalam kutipan tersebut?",
+    "statements": [
+      {
+        "text": "Rina minder karena diejek teman terkait suara dan logatnya.",
+        "correct": true
+      },
+      {
+        "text": "Rina tidak ingin mengikuti lomba karena tidak menyukai pidato.",
+        "correct": false
+      },
+      {
+        "text": "Rina takut gagal dan malu jika kalah dalam lomba.",
+        "correct": true
+      }
+    ],
+    "pembahasan": "Rina mengalami konflik karena minder terhadap ejekan tentang suara dan logatnya serta takut gagal, bukan karena tidak menyukai pidato. Kunci: Benar - Salah - Benar."
+  },
+  {
+    "no": 6,
+    "type": "mcma",
+    "stimulus": TEKS_2,
+    "instruksi": "Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.",
+    "text": "Apa yang akan terjadi jika Rina tidak mendapatkan dukungan dari Ayahnya?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Rina akan membuktikan kepada teman-temannya dengan marah-marah."
+      },
+      {
+        "id": "b",
+        "text": "Rina kemungkinan besar akan mengurungkan niatnya ikut lomba."
+      },
+      {
+        "id": "c",
+        "text": "Rina akan semakin tidak percaya diri dan menerima ejekan begitu saja."
+      },
+      {
+        "id": "d",
+        "text": "Rina akan meminta pindah sekolah agar tidak diejek lagi."
+      },
+      {
+        "id": "e",
+        "text": "Rina akan kehilangan kesempatan belajar dari kegagalan."
+      }
+    ],
+    "correct": [
+      "b",
+      "c",
+      "e"
+    ],
+    "pembahasan": "Tanpa dukungan Ayah, Rina kemungkinan mundur dari lomba, semakin tidak percaya diri, dan kehilangan kesempatan belajar dari kegagalan."
+  },
+  {
+    "no": 7,
+    "type": "pg",
+    "stimulus": TEKS_2,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Nilai karakter yang paling menonjol dalam kutipan cerpen tersebut dengan kehidupan nyata adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Keberhasilan seseorang ditentukan oleh logat dan suara yang sempurna."
+      },
+      {
+        "id": "b",
+        "text": "Menghargai identitas diri dan berani tampil meski berbeda dari orang lain."
+      },
+      {
+        "id": "c",
+        "text": "Orang tua tidak perlu ikut campur dalam urusan lomba anak di sekolah."
+      },
+      {
+        "id": "d",
+        "text": "Kalah dalam kompetisi berarti seseorang tidak memiliki kemampuan apa pun."
+      },
+      {
+        "id": "e",
+        "text": "Ejekan teman harus dibalas dengan prestasi yang berlebihan agar puas."
+      }
+    ],
+    "correct": "b",
+    "pembahasan": "Nilai utama cerita adalah menghargai identitas diri dan berani tampil meskipun berbeda dari orang lain."
+  },
+  {
+    "no": 8,
+    "type": "pg",
+    "stimulus": TEKS_3,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Tujuan penulis menulis teks 1 adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Mengajak masyarakat memasang sumur resapan di setiap rumah"
+      },
+      {
+        "id": "b",
+        "text": "Menjelaskan bahaya krisis air bersih dan pentingnya menghemat air"
+      },
+      {
+        "id": "c",
+        "text": "Menceritakan pengalaman kota yang mengalami intrusi air laut"
+      },
+      {
+        "id": "d",
+        "text": "Mengkritik pemerintah yang boros menggunakan air tanah"
+      },
+      {
+        "id": "e",
+        "text": "Mempromosikan produk meteran air pintar ke masyarakat luas"
+      }
+    ],
+    "correct": "b",
+    "pembahasan": "Teks bertujuan menjelaskan bahaya krisis air bersih sekaligus pentingnya melakukan penghematan air."
+  },
+  {
+    "no": 9,
+    "type": "pg",
+    "stimulus": TEKS_3,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Pernyataan yang tepat terkait isi teks 1 tentang krisis air adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Air tanah tidak akan habis sehingga aman digunakan berlebihan"
+      },
+      {
+        "id": "b",
+        "text": "Penggunaan air tanah berlebihan menyebabkan penurunan muka tanah dan intrusi air laut"
+      },
+      {
+        "id": "c",
+        "text": "Krisis air hanya terjadi di daerah pedesaan, bukan di kota besar"
+      },
+      {
+        "id": "d",
+        "text": "Pemerintah melarang seluruh masyarakat menggunakan air tanah"
+      },
+      {
+        "id": "e",
+        "text": "Kampanye \"Hemat Air\" hanya ditujukan untuk anak sekolah dasar"
+      }
+    ],
+    "correct": "b",
+    "pembahasan": "Teks secara langsung menyebut bahwa penggunaan air tanah berlebihan menyebabkan penurunan muka tanah dan intrusi air laut."
+  },
+  {
+    "no": 10,
+    "type": "mcma",
+    "stimulus": TEKS_3,
+    "instruksi": "Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.",
+    "text": "Mengapa penghematan air oleh setiap keluarga penting dilakukan?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Mengurangi risiko kekeringan kronis di masa depan"
+      },
+      {
+        "id": "b",
+        "text": "Menjaga ketersediaan air bersih bagi generasi selanjutnya"
+      },
+      {
+        "id": "c",
+        "text": "Membuat tagihan air bulanan menjadi lebih murah bagi pemerintah"
+      },
+      {
+        "id": "d",
+        "text": "Mendukung kebijakan konservasi air yang diterapkan pemerintah daerah"
+      },
+      {
+        "id": "e",
+        "text": "Agar masyarakat tidak perlu lagi membeli air kemasan"
+      }
+    ],
+    "correct": [
+      "a",
+      "b",
+      "d"
+    ],
+    "pembahasan": "Menghemat air membantu mengurangi risiko kekeringan, menjaga ketersediaan air bagi generasi berikutnya, dan mendukung kebijakan konservasi air."
+  },
+  {
+    "no": 11,
+    "type": "pg",
+    "stimulus": TEKS_4,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Struktur teks 2 yang tepat adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Pernyataan umum → Dampak perubahan iklim → Tantangan perilaku → Solusi aksi komunitas → Simpulan"
+      },
+      {
+        "id": "b",
+        "text": "Sejarah iklim → Kekurangan media sosial → Ajakan pindah kota → Penutup"
+      },
+      {
+        "id": "c",
+        "text": "Definisi cuaca ekstrem → Contoh banjir → Kritik pemerintah → Penolakan teknologi"
+      },
+      {
+        "id": "d",
+        "text": "Cerita pribadi warga → Masalah sampah → Solusi jual rumah → Penutup"
+      },
+      {
+        "id": "e",
+        "text": "Perbandingan musim hujan dan kemarau → Biaya listrik → Simpulan"
+      }
+    ],
+    "correct": "a",
+    "pembahasan": "Struktur teks bergerak dari pernyataan umum → dampak perubahan iklim → tantangan perilaku → solusi aksi komunitas → simpulan."
+  },
+  {
+    "no": 12,
+    "type": "kategori",
+    "stimulus": TEKS_4,
+    "instruksi": "Tentukan Benar atau Salah untuk setiap pernyataan berikut!",
+    "text": "Bagaimana pola pengembangan paragraf 1, 2, dan 3 pada teks 2?",
+    "statements": [
+      {
+        "text": "Paragraf 1 menggambarkan kondisi dulu vs kini, paragraf 2 menjelaskan tantangan, paragraf 3 menawarkan solusi.",
+        "correct": true
+      },
+      {
+        "text": "Paragraf 1 dan 2 sama-sama membahas keberhasilan kampanye, paragraf 3 membahas sejarah iklim.",
+        "correct": false
+      },
+      {
+        "text": "Paragraf 3 menggunakan pola sebab-akibat karena menjelaskan hasil dari aksi komunitas.",
+        "correct": true
+      }
+    ],
+    "pembahasan": "A. Benar: Paragraf 1 membandingkan kondisi dulu dan kini. B. Salah: Paragraf 2 membahas tantangan perilaku. C. Benar: Paragraf 3 menawarkan solusi dan dampak aksi komunitas. Kunci: Benar - Salah - Benar."
+  },
+  {
+    "no": 13,
+    "type": "kategori",
+    "stimulus": TEKS_4,
+    "instruksi": "Tentukan Setuju atau Tidak Setuju untuk setiap alasan berikut!",
+    "text": "Dari teks 2 tersebut, manakah alasan yang tepat mengapa \"aksi iklim berbasis komunitas\" disebut strategi paling efektif?",
+    "statements": [
+      {
+        "text": "Karena model ini hanya mengandalkan media sosial tanpa aksi nyata.",
+        "correct": false
+      },
+      {
+        "text": "Karena menggabungkan edukasi, gotong royong, dan pengawasan warga.",
+        "correct": true
+      },
+      {
+        "text": "Karena membuat masyarakat tidak perlu lagi peduli lingkungan.",
+        "correct": false
+      }
+    ],
+    "pembahasan": "A. Tidak Setuju: teks tidak menyatakan aksi komunitas tidak efektif. B. Setuju: aksi berbasis komunitas efektif karena menggabungkan edukasi, gotong royong, dan pengawasan warga. C. Tidak Setuju: teks tidak menyatakan aksi komunitas hanya berhasil di daerah kecil. Kunci: Tidak Setuju - Setuju - Tidak Setuju."
+  },
+  {
+    "no": 14,
+    "type": "pg",
+    "stimulus": TEKS_5,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Makna frasa \"batu\" dalam kalimat \"Warga sudah tahu sifat Pak Darto yang 'batu' sejak ia muda\" adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Fisik tubuhnya keras seperti batu dan tidak mudah sakit"
+      },
+      {
+        "id": "b",
+        "text": "Sifat keras kepala, tidak mudah dipengaruhi atau dinasihati orang lain"
+      },
+      {
+        "id": "c",
+        "text": "Kebiasaan diam dan tidak pernah berbicara dengan warga"
+      },
+      {
+        "id": "d",
+        "text": "Sikap acuh tak acuh terhadap bahaya tanpa pertimbangan sama sekali"
+      },
+      {
+        "id": "e",
+        "text": "Cara berpikir lambat sebelum memutuskan sesuatu"
+      }
+    ],
+    "correct": "b",
+    "pembahasan": "Kata batu menggambarkan sifat Pak Darto yang keras kepala serta tidak mudah dipengaruhi atau dinasihati orang lain."
+  },
+  {
+    "no": 15,
+    "type": "kategori",
+    "stimulus": TEKS_5,
+    "instruksi": "Tentukan Tepat atau Tidak Tepat untuk setiap pernyataan berikut!",
+    "text": "Pernyataan yang sesuai isi teks adalah....",
+    "statements": [
+      {
+        "text": "Warga desa panik dan segera mengungsi karena badai datang.",
+        "correct": false
+      },
+      {
+        "text": "Pak Darto menolak mengungsi karena meyakini nasib tidak bisa dihindari.",
+        "correct": true
+      },
+      {
+        "text": "Setelah badai reda, warga menjadi lebih segan pada Pak Darto.",
+        "correct": true
+      }
+    ],
+    "pembahasan": "A. Tidak Tepat: teks tidak menyatakan warga panik. B. Tepat: Pak Darto menolak mengungsi karena meyakini nasib tidak dapat dihindari. C. Tepat: setelah badai warga semakin segan kepadanya. Kunci: Tidak Tepat - Tepat - Tepat."
+  },
+  {
+    "no": 16,
+    "type": "mcma",
+    "stimulus": TEKS_5,
+    "instruksi": "Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.",
+    "text": "Nilai yang terkandung dalam sikap Pak Darto yang tetap tinggal di rumah saat badai adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Pasrah dan menerima takdir tanpa usaha sama sekali"
+      },
+      {
+        "id": "b",
+        "text": "Bandel karena membahayakan diri dan menyusahkan orang lain"
+      },
+      {
+        "id": "c",
+        "text": "Berani dan teguh pendirian meski menghadapi risiko"
+      },
+      {
+        "id": "d",
+        "text": "Tidak menghargai instruksi pemimpin demi kepentingan pribadi"
+      }
+    ],
+    "correct": [
+      "c"
+    ],
+    "pembahasan": "Sikap Pak Darto menunjukkan keberanian dan keteguhan pendirian meskipun menghadapi risiko."
+  },
+  {
+    "no": 17,
+    "type": "kategori",
+    "stimulus": TEKS_6,
+    "instruksi": "Tentukan Tepat atau Tidak Tepat untuk setiap pernyataan berikut!",
+    "text": "Makna kata \"kritis\" pada kalimat (1) paragraf pertama adalah....",
+    "statements": [
+      {
+        "text": "Kata \"kritis\" pada kalimat (1) bermakna tajam dalam menganalisis dan tidak mudah percaya.",
+        "correct": true
+      },
+      {
+        "text": "Kata \"kritis\" pada kalimat (1) bermakna suka menyalahkan orang lain.",
+        "correct": false
+      },
+      {
+        "text": "Kata \"kritis\" pada kalimat (1) bermakna mengikuti opini terbanyak di internet.",
+        "correct": false
+      }
+    ],
+    "pembahasan": "A. Tepat: dalam teks, kritis berarti mampu menganalisis informasi secara rasional. B. Tidak Tepat: kritis bukan berarti menolak semua informasi baru. C. Tidak Tepat: kritis bukan tentang cepat membagikan informasi. Kunci: Tepat - Tidak Tepat - Tidak Tepat."
+  },
+  {
+    "no": 18,
+    "type": "pg",
+    "stimulus": TEKS_6,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Hubungan makna kata \"viral\" dan \"disinformasi\" dalam teks tersebut adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Akibat sebab: viral adalah akibat dari disinformasi yang beredar di internet"
+      },
+      {
+        "id": "b",
+        "text": "Sebab akibat: disinformasi menyebabkan informasi viral cepat di internet"
+      },
+      {
+        "id": "c",
+        "text": "Pertentangan: viral menghambat penyebaran disinformasi di internet"
+      },
+      {
+        "id": "d",
+        "text": "Kesamaan: viral dan disinformasi memiliki arti yang sama dalam konteks teks"
+      },
+      {
+        "id": "e",
+        "text": "Keterangan waktu: disinformasi hanya viral pada siang hari di internet"
+      }
+    ],
+    "correct": "b",
+    "pembahasan": "Hubungannya adalah sebab-akibat: disinformasi yang memicu emosi dan dibagikan tanpa verifikasi dapat cepat menjadi viral."
+  },
+  {
+    "no": 19,
+    "type": "pg",
+    "stimulus": TEKS_6,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Kalimat yang tepat untuk melengkapi simpulan teks tersebut adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Jadi, berpikir kritis hanya perlu dikuasai oleh jurnalis, bukan masyarakat umum"
+      },
+      {
+        "id": "b",
+        "text": "Dengan demikian, berpikir kritis menjadi keterampilan penting agar tidak mudah terjebak disinformasi"
+      },
+      {
+        "id": "c",
+        "text": "Kesimpulannya, internet adalah sumber utama kebenaran tanpa perlu verifikasi"
+      },
+      {
+        "id": "d",
+        "text": "Oleh sebab itu, masyarakat sebaiknya tidak menggunakan internet sama sekali"
+      },
+      {
+        "id": "e",
+        "text": "Dengan kata lain, berpikir kritis tidak penting karena disinformasi mudah dikenali"
+      }
+    ],
+    "correct": "b",
+    "pembahasan": "Simpulan yang sesuai adalah bahwa berpikir kritis merupakan keterampilan penting agar seseorang tidak mudah terjebak disinformasi."
+  },
+  {
+    "no": 20,
+    "type": "mcma",
+    "stimulus": TEKS_6,
+    "instruksi": "Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.",
+    "text": "Manakah pernyataan yang menunjukkan manfaat berpikir kritis sesuai teks tersebut?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Membantu seseorang menganalisis informasi sebelum mempercayainya"
+      },
+      {
+        "id": "b",
+        "text": "Membuat seseorang bisa membuat disinformasi yang lebih menarik"
+      },
+      {
+        "id": "c",
+        "text": "Memahami etika digital agar tidak ikut menyebarkan fitnah"
+      },
+      {
+        "id": "d",
+        "text": "Menyebabkan seseorang menghindari penggunaan internet"
+      }
+    ],
+    "correct": [
+      "a",
+      "c"
+    ],
+    "pembahasan": "A. Benar: berpikir kritis membantu menganalisis informasi sebelum mempercayainya. B. Salah: teks tidak menyatakan verifikasi selalu rumit dan memerlukan alat khusus. C. Benar: berpikir kritis juga mencakup pemahaman etika digital agar tidak ikut menyebarkan fitnah. D. Salah: teks tidak menyatakan tidak boleh memberi pendapat apa pun."
+  },
+  {
+    "no": 21,
+    "type": "mcma",
+    "stimulus": TEKS_7,
+    "instruksi": "Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.",
+    "text": "Manakah pernyataan yang merupakan asumsi tersirat sekaligus bias dalam argumen penulis pada teks 1?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Platform digital secara sengaja dirancang untuk meminggirkan UMKM mikro demi keuntungan pemilik platform."
+      },
+      {
+        "id": "b",
+        "text": "Keberhasilan UMKM hanya dapat diukur dari kemampuan menguasai algoritma, bukan dari kualitas produk."
+      },
+      {
+        "id": "c",
+        "text": "Pemerintah gagal karena tidak pernah memberikan pelatihan digital kepada UMKM sama sekali."
+      },
+      {
+        "id": "d",
+        "text": "Hubungan antara UMKM dan platform saat ini bersifat eksploitatif, bukan kemitraan."
+      }
+    ],
+    "correct": [
+      "a",
+      "d"
+    ],
+    "pembahasan": "Penulis mengasumsikan platform sengaja meminggirkan UMKM mikro dan hubungan UMKM-platform bersifat eksploitatif, terlihat dari penggunaan istilah \"buruh digital\"."
+  },
+  {
+    "no": 22,
+    "type": "pg",
+    "stimulus": TEKS_7,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Apa implikasi paling kritis dari istilah \"proletar baru di era digital\" yang digunakan penulis di akhir teks?",
+    "options": [
+      {
+        "id": "a",
+        "text": "UMKM akan kehilangan hak milik atas alat produksi berupa toko fisik."
+      },
+      {
+        "id": "b",
+        "text": "UMKM akan kehilangan kedaulatan atas data dan pelanggan, sama seperti buruh kehilangan hasil kerjanya."
+      },
+      {
+        "id": "c",
+        "text": "Pemerintah akan menarik semua program digitalisasi karena dianggap gagal."
+      },
+      {
+        "id": "d",
+        "text": "Konsumen akan beralih kembali ke pasar tradisional karena tidak percaya platform."
+      },
+      {
+        "id": "e",
+        "text": "UMKM akan mengalami ketergantungan struktural pada platform dan kehilangan daya tawar seperti buruh pada pemilik modal."
+      }
+    ],
+    "correct": "e",
+    "pembahasan": "Istilah \"proletar baru di era digital\" menunjukkan ketergantungan struktural UMKM terhadap platform sehingga mereka kehilangan daya tawar, seperti buruh terhadap pemilik modal."
+  },
+  {
+    "no": 23,
+    "type": "pg",
+    "stimulus": TEKS_7,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Jika seorang pembuat kebijakan ingin menanggapi kritik penulis, kebijakan yang paling relevan dan langsung menjawab inti masalah dalam teks adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Memberikan subsidi internet gratis agar semua UMKM bisa live jualan setiap hari."
+      },
+      {
+        "id": "b",
+        "text": "Mewajibkan platform membagikan data pelanggan dan melarang praktik monopoli iklan berbayar."
+      },
+      {
+        "id": "c",
+        "text": "Membuat aplikasi marketplace baru milik pemerintah yang sepenuhnya gratis."
+      },
+      {
+        "id": "d",
+        "text": "Menutup semua marketplace asing dan hanya membolehkan marketplace lokal beroperasi."
+      },
+      {
+        "id": "e",
+        "text": "Menambah jumlah pelatihan \"cara foto produk\" di seluruh kabupaten."
+      }
+    ],
+    "correct": "b",
+    "pembahasan": "Kebijakan yang paling langsung menjawab kritik penulis adalah mewajibkan pembagian data pelanggan dan mencegah monopoli iklan berbayar, karena masalah utama menyangkut data dan persaingan yang tidak adil."
+  },
+  {
+    "no": 24,
+    "type": "pg",
+    "stimulus": TEKS_8,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Makna simbolik dari frasa \"ruang interogasi\" dalam kalimat \"Rumah... kini terasa seperti ruang interogasi\" adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Rumah sudah tidak aman lagi karena sering dimasuki orang asing."
+      },
+      {
+        "id": "b",
+        "text": "Rumah telah berubah fungsi menjadi tempat seseorang dihakimi berdasarkan standar sosial."
+      },
+      {
+        "id": "c",
+        "text": "Rumah menjadi saksi bisu pertengkaran antara orang tua dan anak."
+      },
+      {
+        "id": "d",
+        "text": "Rumah kehilangan kehangatan karena semua anggota keluarga sibuk dengan ponsel."
+      },
+      {
+        "id": "e",
+        "text": "Rumah menjadi tempat yang menekan karena dipenuhi tuntutan dan penilaian atas pencapaian hidup."
+      }
+    ],
+    "correct": "e",
+    "pembahasan": "Frasa \"ruang interogasi\" melambangkan rumah yang terasa menekan karena dipenuhi tuntutan, pertanyaan, dan penilaian terhadap pencapaian hidup."
+  },
+  {
+    "no": 25,
+    "type": "mcma",
+    "stimulus": TEKS_8,
+    "instruksi": "Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.",
+    "text": "Apa konflik utama dan cara tokoh menghadapinya berdasarkan teks 2?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Konflik: Tekanan ekspektasi keluarga vs keinginan membuktikan kemandirian.\nCara: Menghindari komunikasi untuk sementara waktu."
+      },
+      {
+        "id": "b",
+        "text": "Konflik: Kerinduan pada kampung halaman vs kenyamanan hidup di kota.\nCara: Memutuskan pindah kembali ke kampung."
+      },
+      {
+        "id": "c",
+        "text": "Konflik: Rasa cinta pada ibu vs rasa takut gagal di mata keluarga.\nCara: Menunda pembicaraan jujur tentang kondisi diri."
+      },
+      {
+        "id": "d",
+        "text": "Konflik: Masalah ekonomi di kota vs biaya hidup di kampung.\nCara: Mencari pekerjaan baru di luar negeri."
+      }
+    ],
+    "correct": [
+      "a",
+      "c"
+    ],
+    "pembahasan": "Tokoh mengalami konflik antara ekspektasi keluarga dan kemandirian, sekaligus antara rasa cinta kepada ibu dan ketakutan dianggap gagal. Ia menghadapinya dengan menghindari atau menunda komunikasi."
+  },
+  {
+    "no": 26,
+    "type": "pg",
+    "stimulus": TEKS_7_8,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Jika teks 1 dan teks 2 disatukan dalam satu esai, benang merah yang paling tepat untuk mengikat keduanya adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "\"Dampak Negatif Teknologi terhadap Hubungan Keluarga\""
+      },
+      {
+        "id": "b",
+        "text": "\"Antara Tuntutan Eksternal dan Pencarian Jati Diri di Era Modern\""
+      },
+      {
+        "id": "c",
+        "text": "\"Strategi Pemerintah Mengatasi Pengangguran Kaum Muda\""
+      },
+      {
+        "id": "d",
+        "text": "\"Kisah Sukses Anak Desa Meraih Karier di Jakarta\""
+      },
+      {
+        "id": "e",
+        "text": "\"Peran Platform Digital dalam Memutus Rantai Kemiskinan\""
+      }
+    ],
+    "correct": "b",
+    "pembahasan": "Kedua teks sama-sama menggambarkan individu yang menghadapi tuntutan eksternal: UMKM ditekan sistem platform, sedangkan tokoh pada teks 2 ditekan ekspektasi keluarga. Benang merahnya adalah pencarian jati diri di era modern."
+  },
+  {
+    "no": 27,
+    "type": "mcma",
+    "stimulus": TEKS_9,
+    "instruksi": "Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.",
+    "text": "Manakah pernyataan yang paling tepat gambarkan bias dan asumsi penulis dalam teks tersebut?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Penulis berasumsi bahwa pertumbuhan ekonomi dan kelestarian lingkungan tidak dapat dicapai secara bersamaan."
+      },
+      {
+        "id": "b",
+        "text": "Penulis menilai konsumen negara maju sengaja menutup mata terhadap dampak produksi barang \"hijau\"."
+      },
+      {
+        "id": "c",
+        "text": "Penulis sepenuhnya menolak semua bentuk energi terbarukan karena dianggap merusak."
+      },
+      {
+        "id": "d",
+        "text": "Penulis mengasumsikan bahwa logika kapitalisme menjadi penghambat utama perubahan sistemik."
+      }
+    ],
+    "correct": [
+      "a",
+      "d"
+    ],
+    "pembahasan": "Penulis mengasumsikan adanya pertentangan antara pertumbuhan ekonomi dan kelestarian lingkungan, serta memandang logika kapitalisme sebagai penghambat utama perubahan sistemik."
+  },
+  {
+    "no": 28,
+    "type": "pg",
+    "stimulus": TEKS_9,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Hubungan logis antara kalimat (2) dan kalimat (3) pada teks di atas adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Sebab-akibat: karena ada \"kolonialisme hijau\" maka konsumen berhenti membeli mobil listrik"
+      },
+      {
+        "id": "b",
+        "text": "Perbandingan: kalimat 2 membahas perusahaan, kalimat 3 membahas pemerintah"
+      },
+      {
+        "id": "c",
+        "text": "Penegasan yang diperluas dengan contoh: kalimat 3 menunjukkan bagaimana konsumen menjadi akibat dari narasi perusahaan"
+      },
+      {
+        "id": "d",
+        "text": "Pertentangan: kalimat 2 optimis, kalimat 3 pesimis terhadap teknologi hijau"
+      },
+      {
+        "id": "e",
+        "text": "Penyimpulan bahwa deforestasi di Amazon harus dihentikan segera tanpa syarat"
+      }
+    ],
+    "correct": "c",
+    "pembahasan": "Kalimat (3) merupakan penegasan yang diperluas dengan contoh dari persoalan pada kalimat (2), yaitu konsumen merasa berjasa melalui produk hijau tanpa menyadari dampak produksinya."
+  },
+  {
+    "no": 29,
+    "type": "pg",
+    "stimulus": TEKS_9,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Berdasarkan usulan para ahli pada paragraf 4, kelemahan utama jika hanya memilih 1 dari 3 jalur tersebut adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Ketiga jalur tersebut terlalu mahal untuk diterapkan di negara berkembang"
+      },
+      {
+        "id": "b",
+        "text": "Satu jalur saja tidak akan mampu melawan logika pertumbuhan kapitalisme yang disebut di paragraf 5"
+      },
+      {
+        "id": "c",
+        "text": "Sertifikasi rantai pasok hanya menguntungkan perusahaan besar, bukan UMKM"
+      },
+      {
+        "id": "d",
+        "text": "Daur ulang tidak dapat dilakukan untuk panel surya dan turbin angin"
+      },
+      {
+        "id": "e",
+        "text": "Pengurangan konsumsi akan menyebabkan PHK massal di sektor manufaktur"
+      }
+    ],
+    "correct": "b",
+    "pembahasan": "Memilih hanya satu jalur dianggap tidak cukup karena persoalan yang dihadapi bersifat sistemik, yaitu logika kapitalisme yang menuntut pertumbuhan terus-menerus."
+  },
+  {
+    "no": 30,
+    "type": "pg",
+    "stimulus": TEKS_9,
+    "instruksi": "Pilih satu jawaban yang paling tepat!",
+    "text": "Jika Anda adalah penasihat pemerintah dan harus memilih satu kebijakan prioritas berdasarkan simpulan penulis di paragraf terakhir, langkah yang paling tepat adalah....",
+    "options": [
+      {
+        "id": "a",
+        "text": "Menghentikan semua proyek energi terbarukan sampai teknologi 100% bersih ditemukan"
+      },
+      {
+        "id": "b",
+        "text": "Membatasi ekspor bahan tambang ke negara maju dan memprioritaskan industri dalam negeri"
+      },
+      {
+        "id": "c",
+        "text": "Membangun koalisi politik lintas negara untuk mereformasi aturan perdagangan dan pertumbuhan ekonomi global"
+      },
+      {
+        "id": "d",
+        "text": "Memberikan subsidi besar bagi konsumen yang membeli produk berlabel \"ramah lingkungan\""
+      },
+      {
+        "id": "e",
+        "text": "Menyerahkan sepenuhnya tanggung jawab transisi hijau kepada perusahaan swasta dan LSM"
+      }
+    ],
+    "correct": "c",
+    "pembahasan": "Simpulan penulis menuntut perubahan sistemik dan keberanian politik. Karena itu, kebijakan paling tepat adalah membangun koalisi lintas negara untuk mereformasi aturan perdagangan dan pertumbuhan ekonomi global."
+  }
+];
+
+const TOTAL_SOAL = QUESTIONS.length; // 30 Soal
+const DURASI_DETIK = 75 * 60; // 75 menit
+
+/* =======================================================================
+   STATE APLIKASI
+   ======================================================================= */
+let peserta = { nama:"", nisn:"", sekolah:"SMAN 2 LUWU UTARA" };
+let currentIndex = 0;
+let answers = {};      // { no: val }
+let doubtful = {};     // { no: bool }
+let timeLeft = DURASI_DETIK;
+let timerInterval = null;
+let submitted = false;
+
+/* =======================================================================
+   VALIDASI FORM DATA PESERTA
+   ======================================================================= */
+["input-nama","input-nisn"].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el){
+    el.addEventListener("input", cekForm);
+    el.addEventListener("change", cekForm);
+  }
+});
+
+function cekForm(){
+  const nama = document.getElementById("input-nama").value.trim();
+  const nisn = document.getElementById("input-nisn").value.trim();
+  document.getElementById("btn-mulai").disabled = !(nama && nisn);
+}
+
+function mulaiTryOut(){
+  peserta.nama = document.getElementById("input-nama").value.trim();
+  peserta.nisn = document.getElementById("input-nisn").value.trim();
+
+  document.getElementById("tb-nama").textContent = peserta.nama;
+  document.getElementById("tb-nisn").textContent = peserta.nisn;
+
+  switchScreen("screen-quiz");
+  buildNavGrid();
+  renderQuestion(0);
+  startTimer();
+}
+
+function switchScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+/* =======================================================================
+   TIMER UJIAN (75 MENIT)
+   ======================================================================= */
+function startTimer(){
+  updateTimerDisplay();
+  timerInterval = setInterval(()=>{
+    timeLeft--;
+    updateTimerDisplay();
+    if(timeLeft <= 0){
+      clearInterval(timerInterval);
+      timeLeft = 0;
+      updateTimerDisplay();
+      autoSubmit();
+    }
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m = Math.floor(timeLeft/60);
+  const s = timeLeft%60;
+  document.getElementById("timer-display").textContent = String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  const box = document.getElementById("timer-box");
+  if(timeLeft <= 300){ box.classList.add("warning"); } else { box.classList.remove("warning"); }
+}
+
+/* =======================================================================
+   NAVIGASI GRID
+   ======================================================================= */
+function buildNavGrid(){
+  const grid = document.getElementById("nav-grid");
+  grid.innerHTML = "";
+  QUESTIONS.forEach((q, idx)=>{
+    const btn = document.createElement("button");
+    btn.className = "nav-btn";
+    btn.textContent = q.no;
+    btn.id = "navbtn-"+q.no;
+    btn.onclick = ()=> renderQuestion(idx);
+    grid.appendChild(btn);
+  });
+  refreshNavColors();
+}
+
+function isAnswered(q){
+  const a = answers[q.no];
+  if(a === undefined || a === null) return false;
+  if(q.type === "pg") return !!a;
+  if(q.type === "mcma") return Array.isArray(a) && a.length>0;
+  if(q.type === "kategori") return Array.isArray(a) && a.length === q.statements.length && a.every(v=>v!==null && v!==undefined);
+  return false;
+}
+
+function refreshNavColors(){
+  let terjawab=0, ragu=0;
+  QUESTIONS.forEach((q, idx)=>{
+    const btn = document.getElementById("navbtn-"+q.no);
+    if(!btn) return;
+    btn.classList.remove("answered","doubt","current");
+    if(idx === currentIndex) btn.classList.add("current");
+    if(doubtful[q.no]){
+      btn.classList.add("doubt"); ragu++;
+      if(isAnswered(q)) terjawab++;
+    } else if(isAnswered(q)){
+      btn.classList.add("answered"); terjawab++;
+    }
+  });
+  document.getElementById("sum-terjawab").textContent = terjawab;
+  document.getElementById("sum-ragu").textContent = ragu;
+  document.getElementById("sum-belum").textContent = TOTAL_SOAL - terjawab;
+}
+
+/* =======================================================================
+   RENDER SOAL
+   ======================================================================= */
+function renderQuestion(idx){
+  currentIndex = idx;
+  const q = QUESTIONS[idx];
+
+  document.getElementById("q-number-badge").textContent = "SOAL " + q.no + "/30";
+  const typeLabel = q.type === "pg" ? "PILIHAN GANDA" : q.type === "mcma" ? "PG KOMPLEKS (MCMA)" : "PG KOMPLEKS KATEGORI";
+  document.getElementById("q-type-badge").textContent = typeLabel;
+  document.getElementById("q-instruksi").textContent = q.instruksi;
+  document.getElementById("q-text").textContent = q.text;
+
+  // Stimulus teks selalu dituliskan ulang
+  const stimContainer = document.getElementById("stimulus-container");
+  if(q.stimulus){
+    stimContainer.innerHTML = '<div class="stimulus-box"><span class="stim-label">📖 STIMULUS TEKS</span>' + escapeHtml(q.stimulus) + '</div>';
+  } else {
+    stimContainer.innerHTML = "";
+  }
+
+  const body = document.getElementById("q-body");
+  body.innerHTML = "";
+
+  if(q.type === "pg"){
+    const wrap = document.createElement("div");
+    wrap.className = "options";
+    const selected = answers[q.no];
+    q.options.forEach(opt=>{
+      const div = document.createElement("div");
+      div.className = "option" + (selected === opt.id ? " selected" : "");
+      div.onclick = ()=> pilihPG(q.no, opt.id);
+      div.innerHTML = '<span class="opt-mark">'+opt.id.toUpperCase()+'</span><span class="opt-text">'+escapeHtml(opt.text)+'</span>';
+      wrap.appendChild(div);
+    });
+    body.appendChild(wrap);
+
+  } else if(q.type === "mcma"){
+    const wrap = document.createElement("div");
+    wrap.className = "options";
+    const selected = answers[q.no] || [];
+    q.options.forEach(opt=>{
+      const div = document.createElement("div");
+      div.className = "option checkbox" + (selected.includes(opt.id) ? " selected" : "");
+      div.onclick = ()=> pilihMCMA(q.no, opt.id);
+      div.innerHTML = '<span class="opt-mark">'+(selected.includes(opt.id) ? "✓" : "")+'</span><span class="opt-text">'+escapeHtml(opt.text)+'</span>';
+      wrap.appendChild(div);
+    });
+    body.appendChild(wrap);
+
+  } else if(q.type === "kategori"){
+    const table = document.createElement("table");
+    table.className = "kategori-table";
+    const current = answers[q.no] || new Array(q.statements.length).fill(null);
+    let rowsHtml = '<thead><tr><th>Pernyataan</th><th style="width:160px; text-align:right;">Pilihan</th></tr></thead><tbody>';
+    q.statements.forEach((st, i)=>{
+      const val = current[i];
+      const btnB = '<button class="kc-btn benar'+(val===true?" active":"")+'" onclick="pilihKategori('+q.no+','+i+',true,'+q.statements.length+')">BENAR / SETUJU</button>';
+      const btnS = '<button class="kc-btn salah'+(val===false?" active":"")+'" onclick="pilihKategori('+q.no+','+i+',false,'+q.statements.length+')">SALAH / TIDAK SETUJU</button>';
+      rowsHtml += '<tr><td class="stmt">'+escapeHtml(st.text)+'</td><td><div class="kategori-choice">'+btnB+btnS+'</div></td></tr>';
+    });
+    rowsHtml += '</tbody>';
+    table.innerHTML = rowsHtml;
+    body.appendChild(table);
+  }
+
+  const raguBtn = document.getElementById("btn-ragu");
+  raguBtn.style.background = doubtful[q.no] ? "var(--kuning)" : "";
+  raguBtn.style.color = doubtful[q.no] ? "#5a4400" : "";
+  raguBtn.style.borderColor = doubtful[q.no] ? "var(--kuning)" : "";
+
+  refreshNavColors();
+}
+
+function escapeHtml(str){
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function pilihPG(no, optId){
+  answers[no] = optId;
+  renderQuestion(currentIndex);
+}
+
+function pilihMCMA(no, optId){
+  let arr = answers[no] ? answers[no].slice() : [];
+  if(arr.includes(optId)){
+    arr = arr.filter(x=>x!==optId);
+  } else {
+    arr.push(optId);
+  }
+  answers[no] = arr;
+  renderQuestion(currentIndex);
+}
+
+function pilihKategori(no, idx, val, totalStmt){
+  let arr = answers[no] ? answers[no].slice() : new Array(totalStmt).fill(null);
+  arr[idx] = val;
+  answers[no] = arr;
+  renderQuestion(currentIndex);
+}
+
+function toggleRagu(){
+  const q = QUESTIONS[currentIndex];
+  doubtful[q.no] = !doubtful[q.no];
+  renderQuestion(currentIndex);
+}
+
+function prevQuestion(){
+  if(currentIndex > 0) renderQuestion(currentIndex - 1);
+}
+function nextQuestion(){
+  if(currentIndex < TOTAL_SOAL - 1) renderQuestion(currentIndex + 1);
+  else konfirmasiKirim();
+}
+
+/* =======================================================================
+   TOGGLE NAVIGASI
+   ======================================================================= */
+let navPanelHidden = false;
+function toggleNavPanel(){
+  navPanelHidden = !navPanelHidden;
+  const navPanel = document.getElementById("nav-panel");
+  const reopenTab = document.getElementById("nav-reopen-tab");
+  const btnShowNav = document.getElementById("btn-show-nav");
+
+  if(navPanelHidden){
+    navPanel.classList.add("collapsed");
+    reopenTab.classList.add("visible");
+    btnShowNav.style.display = "inline-flex";
+  } else {
+    navPanel.classList.remove("collapsed");
+    reopenTab.classList.remove("visible");
+    btnShowNav.style.display = "none";
+  }
+}
+
+/* =======================================================================
+   SUBMIT & HITUNG NILAI
+   ======================================================================= */
+function konfirmasiKirim(){
+  const belum = TOTAL_SOAL - QUESTIONS.filter(q=>isAnswered(q)).length;
+  const pesan = belum > 0
+    ? "Masih ada "+belum+" soal yang belum dikerjakan.\n\nYakin ingin mengirim jawaban sekarang?"
+    : "Semua 30 soal telah dikerjakan.\n\nKirim jawaban sekarang?";
+  if(confirm(pesan)){
+    finishTest(false);
+  }
+}
+
+function autoSubmit(){
+  if(submitted) return;
+  alert("⏰ Waktu ujian habis! Jawaban Anda otomatis dikirim.");
+  finishTest(true);
+}
+
+let hasilAkhir = { benar:0, salah:0, skor:0, persentase:0, waktuPakai:0 };
+
+function finishTest(otomatis){
+  if(submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+
+  let benar = 0;
+  QUESTIONS.forEach(q=>{
+    if(cekJawabanBenar(q)) benar++;
+  });
+  const salah = TOTAL_SOAL - benar;
+  const persentase = Math.round((benar / TOTAL_SOAL) * 100);
+  const skor = persentase; // Skala 100
+  const waktuPakai = DURASI_DETIK - timeLeft;
+
+  hasilAkhir = { benar, salah, skor, persentase, waktuPakai };
+  tampilkanHasil();
+}
+
+function cekJawabanBenar(q){
+  const a = answers[q.no];
+  if(a === undefined || a === null) return false;
+  if(q.type === "pg"){
+    return a === q.correct;
+  } else if(q.type === "mcma"){
+    if(!Array.isArray(a)) return false;
+    const sa = [...a].sort().join(",");
+    const sc = [...q.correct].sort().join(",");
+    return sa === sc;
+  } else if(q.type === "kategori"){
+    if(!Array.isArray(a) || a.length !== q.statements.length) return false;
+    return q.statements.every((st,i)=> a[i] === st.correct);
+  }
+  return false;
+}
+
+function tampilkanHasil(){
+  switchScreen("screen-result");
+  document.getElementById("result-nama-sub").textContent = "Selamat " + peserta.nama + "! Berikut rincian hasil ujian Anda.";
+  document.getElementById("score-circle").style.setProperty("--pct", hasilAkhir.persentase);
+  document.getElementById("score-txt").textContent = hasilAkhir.skor;
+  document.getElementById("stat-benar").textContent = hasilAkhir.benar;
+  document.getElementById("stat-salah").textContent = hasilAkhir.salah;
+  document.getElementById("stat-pct").textContent = hasilAkhir.persentase + "%";
+  const m = Math.floor(hasilAkhir.waktuPakai/60);
+  const s = hasilAkhir.waktuPakai%60;
+  document.getElementById("stat-waktu").textContent = String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+}
+
+/* =======================================================================
+   DOWNLOAD SERTIFIKAT & HASIL (PDF)
+   ======================================================================= */
+function downloadSertifikat(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:"landscape", unit:"mm", format:"a4" });
+  const W = doc.internal.pageSize.getWidth();
+  const H = doc.internal.pageSize.getHeight();
+
+  doc.setDrawColor(15,56,96);
+  doc.setLineWidth(2.2);
+  doc.rect(8,8,W-16,H-16);
+  doc.setDrawColor(47,128,199);
+  doc.setLineWidth(0.6);
+  doc.rect(12,12,W-24,H-24);
+
+  doc.setTextColor(15,56,96);
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(24);
+  doc.text("SERTIFIKAT HASIL TRY OUT TKA", W/2, 32, { align:"center" });
+
+  doc.setFontSize(14);
+  doc.setTextColor(30,90,142);
+  doc.text("TRY OUT TKA 3 BAHASA INDONESIA WAJIB", W/2, 40, { align:"center" });
+
+  doc.setDrawColor(211,233,251);
+  doc.setLineWidth(1);
+  doc.line(W/2-60, 45, W/2+60, 45);
+
+  doc.setFont("helvetica","normal");
+  doc.setFontSize(11);
+  doc.setTextColor(90,90,90);
+  doc.text("Diberikan kepada:", W/2, 56, { align:"center" });
+
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(22);
+  doc.setTextColor(15,56,96);
+  doc.text(peserta.nama.toUpperCase(), W/2, 68, { align:"center" });
+
+  doc.setFont("helvetica","normal");
+  doc.setFontSize(11);
+  doc.setTextColor(90,90,90);
+  doc.text("NISN: " + peserta.nisn + "   |   Sekolah: SMAN 2 LUWU UTARA", W/2, 76, { align:"center" });
+
+  doc.setFontSize(11);
+  doc.text("Telah menyelesaikan Simulasi Try Out Tes Kemampuan Akademik (TKA)", W/2, 88, { align:"center" });
+  doc.text("Bahasa Indonesia (30 Soal / 75 Menit) dengan rincian capaian:", W/2, 94, { align:"center" });
+
+  const boxY = 104;
+  doc.setFillColor(234,244,253);
+  doc.roundedRect(W/2-90, boxY, 180, 36, 4, 4, "F");
+  doc.setDrawColor(211,233,251);
+  doc.roundedRect(W/2-90, boxY, 180, 36, 4, 4, "S");
+
+  // Kolom Nilai
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(26);
+  doc.setTextColor(15,56,96);
+  doc.text(String(hasilAkhir.skor), W/2-60, boxY+22, { align:"center" });
+  doc.setFontSize(9);
+  doc.setFont("helvetica","normal");
+  doc.text("NILAI AKHIR", W/2-60, boxY+29, { align:"center" });
+
+  // Kolom Benar/Salah
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(14);
+  doc.setTextColor(46,125,50);
+  doc.text(hasilAkhir.benar + " BENAR", W/2-15, boxY+16, { align:"center" });
+  doc.setTextColor(224,82,82);
+  doc.text(hasilAkhir.salah + " SALAH", W/2-15, boxY+26, { align:"center" });
+
+  // Kolom Persentase
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(22);
+  doc.setTextColor(30,90,142);
+  doc.text(hasilAkhir.persentase + "%", W/2+30, boxY+22, { align:"center" });
+  doc.setFontSize(9);
+  doc.setFont("helvetica","normal");
+  doc.text("PERSENTASE BENAR", W/2+30, boxY+29, { align:"center" });
+
+  // Kolom Waktu
+  const mm = Math.floor(hasilAkhir.waktuPakai/60);
+  const ss = hasilAkhir.waktuPakai%60;
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(16);
+  doc.setTextColor(100,116,139);
+  doc.text(String(mm).padStart(2,"0")+":"+String(ss).padStart(2,"0"), W/2+70, boxY+20, { align:"center" });
+  doc.setFontSize(8);
+  doc.setFont("helvetica","normal");
+  doc.text("WAKTU DIPAKAI", W/2+70, boxY+27, { align:"center" });
+
+  const tanggal = new Date().toLocaleDateString("id-ID", { day:"numeric", month:"long", year:"numeric" });
+  doc.setFontSize(10);
+  doc.setTextColor(90,90,90);
+  doc.text("Dicetak otomatis oleh Sistem CBT SMAN 2 Luwu Utara pada " + tanggal, W/2, H-22, { align:"center" });
+
+  const namaFile = "Hasil_TryOut_TKA3_BIndo_"+peserta.nama.replace(/\s+/g,"_")+".pdf";
+  doc.save(namaFile);
+}
+
+/* =======================================================================
+   DOWNLOAD SOAL & PEMBAHASAN (PDF)
+   ======================================================================= */
+function escAttr(str){
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function buildQuestionBlockHtml(q){
+  let body = "";
+  if(q.type === "pg" || q.type === "mcma"){
+    body = q.options.map(opt=>
+      '<div class="pdf-opt"><span class="pdf-opt-mark">'+opt.id.toUpperCase()+'</span><span class="pdf-opt-text">'+escAttr(opt.text)+'</span></div>'
+    ).join("");
+  } else if(q.type === "kategori"){
+    body = '<table class="pdf-kat-table"><thead><tr><th>Pernyataan</th><th style="width:100px;">Kategori</th></tr></thead><tbody>' +
+      q.statements.map(st=>
+        '<tr><td>'+escAttr(st.text)+'</td><td><b>[ BENAR ] [ SALAH ]</b></td></tr>'
+      ).join("") + '</tbody></table>';
+  }
+
+  let kunciTxt = "";
+  if(q.type === "pg") kunciTxt = q.correct.toUpperCase();
+  else if(q.type === "mcma") kunciTxt = q.correct.map(c=>c.toUpperCase()).join(", ");
+  else if(q.type === "kategori") kunciTxt = q.statements.map(st=> st.correct ? "BENAR/SETUJU" : "SALAH/TIDAK SETUJU").join(" | ");
+
+  const badge = q.type === "pg" ? "Pilihan Ganda" : q.type === "mcma" ? "PG Kompleks" : "PG Kompleks Kategori";
+  return '<div class="pdf-question-block">'+
+    '<div class="pdf-q-top"><span class="pdf-q-num">SOAL '+q.no+'</span><span class="pdf-q-instr">('+badge+') &mdash; '+escAttr(q.instruksi)+'</span></div>'+
+    '<div class="pdf-q-text">'+escAttr(q.text)+'</div>'+
+    body+
+    '<div class="pdf-pembahasan-box"><b>KUNCI JAWABAN:</b> '+escAttr(kunciTxt)+'<br><b>PEMBAHASAN:</b> '+escAttr(q.pembahasan)+'</div>'+
+    '</div>';
+}
+
+function buildStimulusBlockHtml(q){
+  return '<div class="pdf-stimulus-block">'+
+    '<span class="pdf-stim-title">📖 STIMULUS TEKS (UNTUK SOAL NOMOR '+q.no+')</span>'+
+    '<div class="pdf-stim-text">'+escAttr(q.stimulus)+'</div>'+
+    '</div>';
+}
+
+async function downloadSoalPDF(){
+  const overlay = document.getElementById("pdf-overlay");
+  document.getElementById("pdf-loading-text").textContent = "Menyusun Naskah Soal & Pembahasan...";
+  overlay.classList.add("active");
+
+  await new Promise(r=>setTimeout(r, 150));
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit:"mm", format:"a4" });
+  const pageW = 210, marginX = 12, contentWmm = pageW - marginX*2;
+  const marginTop = 14, pageHmax = 297 - 14;
+  let cursorY = marginTop;
+
+  const renderWidthPx = 720;
+  const pxPerMm = renderWidthPx / contentWmm;
+
+  const stage = document.createElement("div");
+  stage.id = "pdf-render-temp";
+  stage.style.width = renderWidthPx + "px";
+  document.body.appendChild(stage);
+
+  async function renderBlockToPdf(html, gapAfter){
+    stage.innerHTML = html;
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+    const canvas = await html2canvas(stage, { scale:2, backgroundColor:"#ffffff", useCORS:true });
+    const cssHeightPx = canvas.height / 2;
+    const imgHmm = cssHeightPx / pxPerMm;
+
+    if(cursorY + imgHmm > pageHmax){
+      doc.addPage();
+      cursorY = marginTop;
+    }
+    const imgData = canvas.toDataURL("image/jpeg", 0.95);
+    doc.addImage(imgData, "JPEG", marginX, cursorY, contentWmm, imgHmm);
+    cursorY += imgHmm + (gapAfter !== undefined ? gapAfter : 4);
+  }
+
+  // Cover Naskah
+  const coverHtml =
+    '<div class="pdf-cover">'+
+      '<div class="pdf-band">'+
+        '<h1>NASKAH SOAL &amp; PEMBAHASAN</h1>'+
+        '<h2>TRY OUT TKA 3 BAHASA INDONESIA WAJIB</h2>'+
+        '<p>SMAN 2 LUWU UTARA &bull; Jumlah Soal: 30 Butir &bull; Waktu: 75 Menit</p>'+
+      '</div>'+
+      '<div class="pdf-petunjuk">'+
+        '<b>PETUNJUK:</b> Naskah ini berisi seluruh butir soal Try Out TKA 3 Bahasa Indonesia Wajib beserta stimulus teks yang telah dituliskan kembali secara utuh pada setiap soal, disertai Kunci Jawaban dan Pembahasan lengkap di setiap nomor.'+
+      '</div>'+
+    '</div>';
+  await renderBlockToPdf(coverHtml, 6);
+
+  // Render Setiap Soal + Stimulus Teks
+  for(const q of QUESTIONS){
+    if(q.stimulus){
+      await renderBlockToPdf(buildStimulusBlockHtml(q), 3);
+    }
+    await renderBlockToPdf(buildQuestionBlockHtml(q), 5);
+  }
+
+  // Halaman Kunci Jawaban Ringkas
+  doc.addPage();
+  cursorY = marginTop;
+  const kunciItems = QUESTIONS.map(q=>{
+    let jawabanTxt = "";
+    if(q.type === "pg"){ jawabanTxt = q.correct.toUpperCase(); }
+    else if(q.type === "mcma"){ jawabanTxt = q.correct.map(c=>c.toUpperCase()).join(","); }
+    else if(q.type === "kategori"){ jawabanTxt = q.statements.map(st=> st.correct ? "B" : "S").join("-"); }
+    return '<div class="pdf-kunci-item"><span>Soal '+q.no+':</span><b>'+jawabanTxt+'</b></div>';
+  }).join("");
+  const kunciHtml = '<div><div class="pdf-kunci-title">RINGKASAN KUNCI JAWABAN (SOAL 1 - 30)</div><div class="pdf-kunci-grid">'+kunciItems+'</div></div>';
+  await renderBlockToPdf(kunciHtml, 0);
+
+  document.body.removeChild(stage);
+  doc.save("Soal_dan_Pembahasan_TKA_3_Bahasa_Indonesia_Wajib.pdf");
+
+  overlay.classList.remove("active");
+}
+
+window.addEventListener("beforeunload", function(e){
+  if(document.getElementById("screen-quiz").classList.contains("active") && !submitted){
+    e.preventDefault();
+    e.returnValue = "";
+  }
+});
+</script>
+</body>
+</html>
